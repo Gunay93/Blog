@@ -1,0 +1,55 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('{{ header.bg_img.url }}')">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="page-heading">
+                        <h1>{{ header.title }}</h1>
+                        <span class="subheading"><a href="{% url 'accounts:login' %}"
+                                                    style="color:white;">{{ header.sub_title }} </a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <form name="loginFrom" id="loginFrom" novalidate method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <p style="color:red" class="help-block text-danger">{{ field.errors.as_text }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <br>
+                    {% if messages %}
+                        <div id="success" style="color:green">
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                        </div>
+                        <a href="{% url "accounts:login" %}">Daxil olun</a>
+                    {% else %}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary"
+                                    id="sendMessageButton">{{ header.button_text }}</button>
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr>
+{% endblock %}
